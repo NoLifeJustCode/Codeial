@@ -1,0 +1,441 @@
+
+.comments{
+    position: relative;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid red;
+}
+.container{
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    border:1px black groove;
+    position: fixed;
+    bottom: 2px;
+    right:30px;
+    z-index: 100;
+    background-color: white;
+}
+.messageContainer{
+    height: 10%;
+    width: 100%;
+    display: flex;
+    border: 1px solid black;    
+}
+.messageContainer .message{
+    height: 100%;
+}
+.recievedMessage{
+    float: left;
+    margin-left: 5px;
+    width: 70%;
+    position: relative;
+    padding: 5px;
+    background-color: pink;
+    border-radius: 0.8em;
+    margin: 10px 2px;
+}
+.recievedMessage sub{
+    
+    float: right;
+    display: block;
+
+} 
+.sendMessage{
+    float: right;
+    margin-right: 5px;
+    width: 70%;
+    position: relative;
+    padding: 5px;
+    background-color: green;
+    border-radius: 0.8em;
+    margin: 10px 2px;
+}
+.sendMessage sub{
+    
+    float: right;
+    display: block;
+
+}  
+.messageList{
+    overflow-x: hidden;
+    overflow-y: auto;
+    list-style: none;
+    margin: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    padding-inline-start: 0;
+    padding-inline-start: 10px;
+    height: 90%;
+}
+body{
+    width: 100%;
+    height: 100%;
+    
+}
+.About{
+    width: 90%;
+    display: flex;
+    position: relative;
+    border: 1px solid black;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+
+    padding: 5px;
+}
+.About img{
+    width: 30%;
+    height: 50%;
+}
+.About form{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    position: relative;
+}
+.disabled{
+    border: none;
+    background-color: inherit;
+    
+}
+.options{
+    width: fit-content;
+    position: relative;
+    float: right;
+}
+.FormField {
+    display: flex;
+    
+}
+.friendsList{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 30px;
+    justify-content: flex-start;
+    height: auto;
+    width: 90%;
+    margin: auto;
+}
+.friend{
+    width: 20%;
+    height: 30vh;
+    margin: 5px;
+
+}
+.friend img{
+    height: 80%;
+    width: 80%;
+    margin-left: 10%;
+}
+.friend .name{
+    height: 5%;
+    font-size: 1.5em;
+    text-align: center;
+}
+.Activity{
+    display: flex;
+    flex-direction: column;
+}
+.PostList{
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin-left: 5%;
+    justify-content: flex-start;
+}
+.Post{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 1px solid black;
+    margin: 15px;
+    padding: 15px;
+    position: relative;
+}
+.Post img{
+    height: 500px;
+    width: 100%;
+}
+.Post .content{
+    width: 100%;
+    font-size: 2em;
+    margin-bottom: 15px;
+}
+.Post .commentBox{
+    width: 40%;
+    height: 10%;
+    display: flex;
+}
+.commentBox textarea{
+width: 80%;
+border-radius: .8em;
+}
+.commentBox input{
+    width: fit-content;
+    border-radius: .8em;
+    padding: 2px;
+}
+.Post .commentList{
+width: 100%;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+
+flex-wrap: nowrap;
+overflow-y: auto;
+overflow-x: hidden;
+padding: 5px;
+}
+
+.commentList .comment{
+height: 10%;
+width: fit-content;
+margin-left: 40px;
+padding: 15px;
+
+}
+.comment .content{
+    width: 100%;
+    font-size: 1em;
+    background-color: silver;
+    border-radius: .8em;
+    padding: 10px;
+}
+.MakePost{
+    width: 60%;
+    margin-left: 5%;
+    position: relative;
+    max-height: 30%;
+    display: flex;
+}
+.MakePost textarea{
+    width: 85%;
+    border-radius: .8em;
+}
+.MakePost input{
+    width: 15%;
+    font-size: 1.5em;
+    border-radius: .8em;
+}
+.list{
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    overflow-y: auto;
+    padding: 5px;
+    width: 100%;
+}
+.item{
+    height: auto;
+    width: 60%;
+    margin: 15px;
+}
+.item img{
+    width: 100%;
+    height: 100px;
+}
+.Home{
+    display: flex;
+}
+.left{
+    width: 80%;
+}
+.right{
+    width: 20%;
+}
+.Post .icon{
+    height: 15px;
+    width: 15px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+}
+.like{
+    height: 2em;
+    width: 3em;
+    position: relative;
+    margin: 10px;
+    display: flex;
+    font-size: 1em;
+    vertical-align: middle;
+}
+.like img{
+    height: 100%;
+    
+}
+.icon a{
+    text-decoration: none;
+    text-transform: capitalize;
+    color: black;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+}
+.header .title{
+    font-size: 3em;
+    margin-block-start: 0;
+}
+.header .right{
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 15px;
+    width: 40%;
+}
+.icon{
+    width: 2em;
+    height: 2em;
+}
+.icon img{
+ width: inherit;
+ height: inherit;   
+}
+.dropdown{
+    position: relative;
+    
+    vertical-align: top;
+    
+    margin-right: 1vw;
+    width: 50%;
+
+}
+.dropdown-content{
+    display: none;
+    position: absolute;
+    top:2vh;
+    /* width: fit-content; */
+    /* vertical-align: top; */
+    right: 0;
+    margin-right: 1vw;
+    list-style: none;
+    background-color: white;
+    width: 100%;
+    z-index: 1;
+    padding-inline-start: 0;    
+}
+
+.dropdown-content a{
+     text-decoration: none; 
+     border-bottom:2px solid grey ;
+    display:block;
+    color:black;
+    font-size: 1em;
+    background-color: white;
+    padding:2px;
+   width: 100%;
+   text-align: inherit;
+    margin-top: .8em;
+}
+.dropdown-content a:hover{
+    background-color: grey;
+}
+.dropdown:hover .dropdown-content{
+    display: block;
+}
+.dropdown-content i{
+    margin-right:1vw ;
+    color:grey;
+}
+.notification{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 40%;
+}
+.react{
+    display: flex;
+}
+.react a{
+    background-color: #e7d4d4;
+    text-align: center;
+    border-radius: .8em;
+}
+.name{
+    text-align: center;
+    font-size: 1em;
+}
+.profilePic{
+    margin: auto;
+}
+.notification img{
+    height: 100px;
+    width: 100px;
+    margin: auto;
+    
+}
+
+
+.messageBox{
+    width: 70%;
+    padding: 10px 20px;
+    height: auto;
+    position: relative;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: flex-start; */
+    
+}
+
+.message{
+    width: 60%;
+    
+    height: fit-content;
+    overflow-wrap: break-word;
+}
+.time{
+    width: fit-content;
+    float: right;
+    display: block;
+}
+.username{
+    display: inline-block;
+    
+    text-transform: capitalize;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0px 5px;
+}
+
+.sendMessage {
+    float: right;
+    background-color: lawngreen;
+}
+
+
+.recievedMessage{
+float: left;
+    background-color: pink;
+}
+.textRight{
+    text-align: right;
+}
+.textLeft{
+    text-align: left;
+}
+.intro{
+    width: 70%;
+    margin: auto;
+
+}
+.container{
+    height: 500px;
+    width: 400;
+    
+}
+.container .heading{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    position: relative;
+    width: 100%;
+}
+

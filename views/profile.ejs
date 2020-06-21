@@ -1,0 +1,97 @@
+<html>
+    
+<head>
+    <link rel="stylesheet" type="text/css" href="/assets/profile.css">
+    <link rel="stylesheet" type="text/css" href="/assets/home.css">
+</head>
+<body>
+    <div class="About">
+            <form enctype="multipart/form-data" method="POST" action="/Auth/Friends/upload/<%=id%>">
+                <input type="file" name='img'><img src="<%=profile.avatar%>" alt=""></input>
+                <input type="submit" name="" id="" value="upload pic">
+            </form>
+           <form action="/update/profile/<%=profile.id%>">
+
+               <div class="FormField">
+                 <label for="name">Username : </label>
+
+                <input type="text" id="name" value="<%=profile.name%>" class="disabled" disabled>
+                </div>
+
+                <div class="FormField">
+                    <label for="name">Email : </label>
+   
+                   <input type="text" id="name" value="<%=profile.name%>" class="disabled" disabled>
+                </div>
+                <div class="FormField">
+                    <label for="Permission">Who can view my Profile : </label>
+                    <select name="Permission" id="Permission" disabled class="disabled">
+                        <option value="NoBody">Only Me</option>
+                        <option value="Friends">Friends</option>
+                        <option value="Public">Any One </option>
+                    </select>
+                   </div>
+                   <div class="options">
+                   <input type="submit" value="Save" >
+                   <button >Edit</button>
+                </div>
+           </form>
+
+
+    </div>
+   <%if(profile.Permission){%>
+    <div class="Activity">
+        <h2 >Friends</h2>
+        <div class="friendsList">
+                
+                <%for(var friend of profile.friends){%>
+                    <div class="friend">
+                            <a href="/Auth/Friends/profile/<%=friend.id%>"><img src="<%=friend.avatar%>" alt="Profile Pic"></a>
+                            <div class="name"><%=friend.name%></div>
+                    </div>
+                <%}%>
+        </div>
+        <h2>Posts</h2>
+        <div class="PostList">
+                <%for(var post of profile.posts){%>
+                        <div class="Post">
+                                <div class="content">
+                                   <%= post.content%>
+                                </div>
+                                <form action="/create-comment/<%=post.id%>" class="commentBox" method="POST">
+                                    <textarea name="content"  cols="20" rows="2" placeholder="Comment here ...."></textarea>
+                                    <br>
+                                    <input type="submit" value="comment">
+                                </form>
+                                <div class="commentList">
+                                        <%for(var comment of post.comments){%>
+                                                <div class="comment">
+                                                        <div class="content"><%=comment.content%></div>
+                                                        <%if(String(comment.User)==String(id)){%>
+                
+
+                                                        <div style="position: absolute; bottom :2px; right :2px ;">
+                                                            
+                                                               
+                                                            <a href="/delete-comment/<%=comment.id%>">Delete</a>
+                                                        </div>            
+                                                        
+                                                        
+                                                        <%}%>
+                                                </div>
+                                        <%}%>
+                                </div>
+                        </div>
+                <%}%>
+        </div>
+    </div>
+    <%}else{%>
+    <div class="Access Denied">
+            <h2>
+                The Profile is Locked
+            </h2>
+    </div>    
+    <%}%>
+    <script src="profile.js"></script>
+</body>
+</html>

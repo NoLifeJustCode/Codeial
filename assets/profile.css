@@ -1,0 +1,125 @@
+body{
+    width: 100%;
+    height: 100%;
+    
+}
+.About{
+    width: 90%;
+    display: flex;
+    position: relative;
+    border: 1px solid black;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+
+    padding: 5px;
+}
+.About img{
+    width: 30%;
+    height: 50%;
+}
+.About form{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    position: relative;
+}
+.disabled{
+    border: none;
+    background-color: inherit;
+    
+}
+.options{
+    width: fit-content;
+    position: relative;
+    float: right;
+}
+.FormField {
+    display: flex;
+    
+}
+.friendsList{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 30px;
+    justify-content: flex-start;
+    height: auto;
+    width: 90%;
+    margin: auto;
+}
+.friend{
+    width: 20%;
+    height: 30vh;
+    margin: 5px;
+
+}
+.friend img{
+    height: 80%;
+    width: 100%;
+    margin: auto;
+}
+.friend .name{
+    height: 5%;
+    font-size: 1.5em;
+    text-align: center;
+}
+.Activity{
+    display: flex;
+    flex-direction: column;
+}
+.PostList{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin: auto;
+    justify-content: flex-start;
+}
+.Post{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+.Post img{
+    height: 500px;
+    width: 100%;
+}
+.Post .content{
+    width: 100%;
+    font-size: 2em;
+}
+.Post .commentBox{
+    width: 40%;
+    height: 10%;
+    display: flex;
+}
+.commentBox textarea{
+width: 85%;
+border-radius: .8em;
+}
+.commentBox input{
+    width: 14%;
+    border-radius: .8em;
+}
+.Post .commentList{
+width: 100%;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+
+flex-wrap: nowrap;
+overflow-y: auto;
+overflow-x: hidden;
+padding: 5px;
+}
+
+.commentList .comment{
+height: 10%;
+width: 100%;
+
+}
+.comment .content{
+    width: 100%;
+    font-size: 1em;
+}
