@@ -6,22 +6,30 @@
 </head>
 <body>
     <div class="About">
-            <form enctype="multipart/form-data" method="POST" action="/Auth/Friends/upload/<%=id%>">
-                <input type="file" name='img'><img src="<%=profile.avatar%>" alt=""></input>
-                <input type="submit" name="" id="" value="upload pic">
+            <form enctype="multipart/form-data" method="POST" action="/Auth/Friends/upload">
+                <%var isUser=(id==user.id)%>
+                <%if(isUser){%>
+                <input type="file" name='img' style="display: none;">
+              
+                <img src="<%=avatar%>" id="profilePic" alt="" style="cursor: pointer;">
+              
+                <input type="submit" name="" id="uploadPic" value="upload pic" style="display: none;">
+                <%}else{%>
+                    <img src="<%=avatar%>" id="profilePic" alt="" >
+                <%}%>
             </form>
-           <form action="/update/profile/<%=profile.id%>">
+           <form action="/update/profile/<%=id%>">
 
                <div class="FormField">
                  <label for="name">Username : </label>
 
-                <input type="text" id="name" value="<%=profile.name%>" class="disabled" disabled>
+                <input type="text" id="name" value="<%=name%>" class="disabled" disabled>
                 </div>
 
                 <div class="FormField">
                     <label for="name">Email : </label>
    
-                   <input type="text" id="name" value="<%=profile.name%>" class="disabled" disabled>
+                   <input type="text" id="name" value="<%=email%>" class="disabled" disabled>
                 </div>
                 <div class="FormField">
                     <label for="Permission">Who can view my Profile : </label>
@@ -31,20 +39,20 @@
                         <option value="Public">Any One </option>
                     </select>
                    </div>
-                   <div class="options">
-                   <input type="submit" value="Save" >
+                   <!-- <div class="options">
+                   <input type="submit" value="Save" style="display: none;" >
                    <button >Edit</button>
-                </div>
+                </div> -->
            </form>
 
 
     </div>
-   <%if(profile.Permission){%>
+   <%if(Permission){%>
     <div class="Activity">
         <h2 >Friends</h2>
         <div class="friendsList">
                 
-                <%for(var friend of profile.friends){%>
+                <%for(var friend of friends){%>
                     <div class="friend">
                             <a href="/Auth/Friends/profile/<%=friend.id%>"><img src="<%=friend.avatar%>" alt="Profile Pic"></a>
                             <div class="name"><%=friend.name%></div>
@@ -52,39 +60,85 @@
                 <%}%>
         </div>
         <h2>Posts</h2>
-        <div class="PostList">
-                <%for(var post of profile.posts){%>
-                        <div class="Post">
-                                <div class="content">
-                                   <%= post.content%>
-                                </div>
-                                <form action="/create-comment/<%=post.id%>" class="commentBox" method="POST">
-                                    <textarea name="content"  cols="20" rows="2" placeholder="Comment here ...."></textarea>
-                                    <br>
-                                    <input type="submit" value="comment">
-                                </form>
-                                <div class="commentList">
-                                        <%for(var comment of post.comments){%>
-                                                <div class="comment">
-                                                        <div class="content"><%=comment.content%></div>
-                                                        <%if(String(comment.User)==String(id)){%>
-                
+        <form action="/Auth/post/create-post" method="POST" class="MakePost">
 
-                                                        <div style="position: absolute; bottom :2px; right :2px ;">
-                                                            
-                                                               
-                                                            <a href="/delete-comment/<%=comment.id%>">Delete</a>
-                                                        </div>            
-                                                        
-                                                        
-                                                        <%}%>
-                                                </div>
-                                        <%}%>
-                                </div>
+            <textarea name="content" id="" cols="30" rows="2" placeholder="Write Something here ...."></textarea>
+            <input type="submit" value="post">
+            </form>
+            <div class="PostList">
+                <%for(var post of posts){%>
+                    <%if(post.CreatedUser&&post.CreatedUser!=null){%>
+                    <div class="Post">
+                        
+                        <% var isLiked=post.Likes.some(function(id){return id.equals(user.id)})%>
+                        <div class="userHeader">
+                            <img src="<%=post.CreatedUser.avatar%>" class="avatar" alt="">
+                            <div class="userInfo">
+                                <div class=name><%=post.CreatedUser.name%></div>
+                            </div>
                         </div>
+                        <%if(String(post.CreatedUser)==String(user.id)){%>   
+                        <a href="/Auth/post/delete-post/<%=post.id%>" ><img class="icon" src="https://image.flaticon.com/icons/svg/271/271203.svg"></a>
+                        <%}%>
+                        <div class="content">
+                            <%=post.content%>
+                        </div>
+                        
+                        <div class="postImage">
+                            <img src="<%=post.img%>"  alt="">
+                        </div>
+                        <%if(!isLiked){%>
+                        <div class="like"><%=post.Likes.length%><a href="/Auth/post/like/<%=post.id%>"><img  src="https://image.flaticon.com/icons/svg/633/633759.svg"></a></div>
+                        <%}else{%>
+                            <div class="like"><%=post.Likes.length%><a href="/Auth/post/unlike/<%=post.id%>"><img  src="https://image.flaticon.com/icons/svg/889/889140.svg"></a></div>
+                        <%}%>
+                        <form action="/Auth/comment/create-comment/<%=post.id%>" class="commentBox" method="POST">
+                           <img src="<%=user.avatar%>" class="avatar" style='height: 100%;' alt="">
+                            <div class="commentPost">
+                            <textarea name="content"  cols="20" rows="2" placeholder="Comment here ...."></textarea>
+                            <br>
+                            <input type="submit" value="comment">
+                          </div>
+                        </form>
+                        <hr style="width: 100%;">
+                        <div class="commentList">
+                            <%=post.comments%>
+                            <%for(var comment of post.comments){%>
+                              
+                                <%if(comment.User&&comment.User!=null){%>
+                                <div class="commentLayout">
+                                <img src="<%=comment.User.avatar%>" class="avatar" style="height: 50px;" alt="">
+                                <div class="comment">
+                                    <% var isLiked=comment.Likes.some(function(id){return id.equals(user.id)})%>
+                                        <div class="name textLeft">
+                                                <%=comment.User.name%>
+                                        </div>
+                                        <div class="content">
+                                                <%=comment.content%>
+                                        </div>
+                                        <div class="commentImage">
+                                                <img src="" alt="">
+                                        </div>
+                                        <div class="options">
+                                        <%if(!isLiked){%>
+                                            <div class="like" style="width: 2em;"><%=comment.Likes.length%><a href="/Auth/comment/like/<%=comment.id%>"><img  src="https://image.flaticon.com/icons/svg/633/633759.svg"></a></div>
+                                            <%}else{%>
+                                                <div class="like" style="width: 2em;"><%=comment.Likes.length%><a href="/Auth/comment/unlike/<%=comment.id%>"><img  src="https://image.flaticon.com/icons/svg/889/889140.svg"></a></div>
+                                        <%}%>
+                                            <%if(String(comment.User)==String(user.id)){%>
+                                            <a href="/Auth/comment/delete-comment/<%=comment.id%>" style="position: relative; top: 2em;">delete</a>
+                                            <%}%>
+                                        </div>
+                                </div>
+                                </div>
+                                <%}%>
+                            <%}%>
+                        </div>
+                    </div>
+                    <%}%>
                 <%}%>
-        </div>
-    </div>
+            </div>
+            
     <%}else{%>
     <div class="Access Denied">
             <h2>
@@ -92,6 +146,9 @@
             </h2>
     </div>    
     <%}%>
-    <script src="profile.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.dev.js"></script>
+
+    <script src="/assets/profile.js"></script>
 </body>
 </html>

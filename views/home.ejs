@@ -12,8 +12,10 @@
             <%for(var request of Requests){%>
                 <li class="notification">
                     <div class="user">
+                        <a href="/Auth/Friends/profile/<%=request.id%>">
                         <img src="<%=request.avatar%>" alt="profilePic">
                         <div class="name"><%=request.name%></div>
+                        </a>
                         <div class="react">
                             <a href="/Auth/Friends/accept/<%=request.id%>">Accept</a>
                             <a href="/Auth/Friends/reject/<%=request.id%>">Decline</a>
@@ -23,18 +25,11 @@
             <%}%>
         </ul>
     </div>
-    <div class="dropdown">
-            <div class="icon"><img src="https://image.flaticon.com/icons/svg/561/561127.svg" alt=""></div>
-            <div class="count">1</div>
-            <ul class="dropdown-content">
-                <li class="notification">
-                    <div class="messageNotification" id="5eefc9e61a341323d44c0505">
-                                S has sent u message
-                    </div>
-                </li>
-            </ul>
+    <div style="margin:0px 15px;">
+            <div class="icon"><a href="/Auth/Friends/messenger"><img src="https://image.flaticon.com/icons/svg/561/561127.svg" alt=""></a></div>
+            
     </div>
-    <form action="/Auth/logout" method="POST">
+    <form  style="margin :5px 100px" action="/Auth/logout" method="POST">
     <input type="submit" value="logout">
     </form>
 </div>
@@ -43,52 +38,90 @@
 <div class="Home">
 
 <div class="left">
-<form action="/Auth/post/create-post" method="POST" class="MakePost">
-
+<form action="/Auth/post/create-post" method="POST" enctype="multipart/form-data" class="MakePost">
+<div class="postText">
 <textarea name="content" id="" cols="30" rows="2" placeholder="Write Something here ...."></textarea>
+<img id='postImg' src="https://image.flaticon.com/icons/svg/2919/2919760.svg" style="height: 50px;" >
+</div>
+<input type="file" name="img" placeholder="hello" style="display: none;">
 <input type="submit" value="post">
 </form>
 <div class="PostList">
     <%for(var post of posts){%>
+        <%if(post.CreatedUser&&post.CreatedUser!=null){%>
         <div class="Post">
-            <% var isLiked=post.Likes.some(function(id){return id.equals(user.id)})%>
             
+            <% var isLiked=post.Likes.some(function(id){return id.equals(user.id)})%>
+            <div class="userHeader">
+                <a href="/Auth/Friends/profile/<%=post.CreatedUser.id%>">
+                <img src="<%=post.CreatedUser.avatar%>" class="avatar" alt="">
+                </a>
+                <div class="userInfo">
+                    <div class=name><%=post.CreatedUser.name%></div>
+                </div>
+            
+            </div>
             <%if(String(post.CreatedUser)==String(user.id)){%>   
             <a href="/Auth/post/delete-post/<%=post.id%>" ><img class="icon" src="https://image.flaticon.com/icons/svg/271/271203.svg"></a>
             <%}%>
             <div class="content">
                 <%=post.content%>
             </div>
+            <%if(post.img){%>
+            <div class="postImage">
+                <img src="<%=post.img%>"  alt="">
+            </div>
+            <%}%>
             <%if(!isLiked){%>
             <div class="like"><%=post.Likes.length%><a href="/Auth/post/like/<%=post.id%>"><img  src="https://image.flaticon.com/icons/svg/633/633759.svg"></a></div>
             <%}else{%>
                 <div class="like"><%=post.Likes.length%><a href="/Auth/post/unlike/<%=post.id%>"><img  src="https://image.flaticon.com/icons/svg/889/889140.svg"></a></div>
             <%}%>
             <form action="/Auth/comment/create-comment/<%=post.id%>" class="commentBox" method="POST">
+               <img src="<%=user.avatar%>" class="avatar" style='height: 100%;' alt="">
+                <div class="commentPost">
                 <textarea name="content"  cols="20" rows="2" placeholder="Comment here ...."></textarea>
                 <br>
                 <input type="submit" value="comment">
+              </div>
             </form>
             <hr style="width: 100%;">
             <div class="commentList">
                 <%for(var comment of post.comments){%>
+                  
+                    <%if(comment.User&&comment.User!=null){%>
+                    <div class="commentLayout">
+                    <img src="<%=comment.User.avatar%>" class="avatar" style="height: 50px;" alt="">
                     <div class="comment">
                         <% var isLiked=comment.Likes.some(function(id){return id.equals(user.id)})%>
+                            <div class="name textLeft">
+                                   <%=comment.User.name%>
+                            </div>
                             <div class="content">
                                     <%=comment.content%>
                             </div>
+                            <%if(comment.img){%>
+                            <div class="commentImage">
+                                    <img src="" alt="">
+                            </div>
+                            <%}%>
+                            <div class="options">
                             <%if(!isLiked){%>
                                 <div class="like" style="width: 2em;"><%=comment.Likes.length%><a href="/Auth/comment/like/<%=comment.id%>"><img  src="https://image.flaticon.com/icons/svg/633/633759.svg"></a></div>
                                 <%}else{%>
                                     <div class="like" style="width: 2em;"><%=comment.Likes.length%><a href="/Auth/comment/unlike/<%=comment.id%>"><img  src="https://image.flaticon.com/icons/svg/889/889140.svg"></a></div>
                             <%}%>
-                            <div class="options">
-                                <a href="">delete</a>
+                                <%if(String(comment.User)==String(user.id)){%>
+                                <a href="/Auth/comment/delete-comment/<%=comment.id%>" style="position: relative; top: 2em;">delete</a>
+                                <%}%>
                             </div>
                     </div>
+                    </div>
+                    <%}%>
                 <%}%>
             </div>
         </div>
+        <%}%>
     <%}%>
 </div>
 </div>
@@ -99,35 +132,46 @@
         
         <div class="item">
             <a href="/Auth/Friends/profile/<%=friend.id%>"><img src="<%=friend.avatar%>" alt="profile"></a>
-            <div class="name"><%=friend.name%></div>
-            <div class="icon"><a href="/Auth/Friends/remove/<%=friend.id%>">unfriend</a></div>
-            <div class="icon"><a id="<%=friend.id%>" class="chat">Message</a></div>
+            <div class="name" style="margin: 10px 0px;"><%=friend.name%></div>
+            <div class="options" style="justify-content: space-evenly;">
+                <div class="name" style="font-size: 1em;">Unfriend</div>
+                <div class="name" style="font-size: 1em;"><a id="<%=friend.id%>" class="chat">Message</a></div>
+            </div>
         </div>
         <%}%>
     </div>
     <h2>Users</h2>
-    <temp attr="<%=user.id%>"></temp>
+    <temp id="<%=user.id%>"></temp>
 <div class="list">
     <%for(var userItem of users){%>
     <%if(String(userItem.id)!=String(user.id)){%>
     <div class="item">
         <a href="/Auth/Friends/profile/<%=userItem.id%>"><img src="<%=userItem.avatar%>" alt="profile"></a>
-        <div class="name"><%=userItem.name%></div>
-        
+        <div class="name" style="margin: 10px 0px;"><%=userItem.name%></div>
+        <div class="options" style="justify-content: space-evenly;">
         <% var isRequestSent=userItem.Requests.some(function(id){return id.equals(user.id)})%>
         <%if(!isRequestSent){%>
-        <div class="icon"><a href="/Auth/Friends/add-friend/<%=userItem.id%>">Add Friend</a></div>
+            <div class="name" style="font-size: 1em;"><a href="/Auth/Friends/add-friend/<%=userItem.id%>">Add Friend</a></div>
         <%}else{%>
-            <div class="icon"><a href="/Auth/Friends/add-friend/<%=userItem.id%>" >Request Sent</a></div>   
+            <div class="name" style="font-size: 1em;"><a href="/Auth/Friends/add-friend/<%=userItem.id%>" >Request Sent</a></div>   
         <%}%>
-        <div class="icon"><a id="<%=userItem.id%>" class="chat">Message</a></div>
+        <div class="name" style="font-size: 1em;"><a id="<%=userItem.id%>" class="chat">Message</a></div>
+    </div>
     </div>
     <%}%>
     <%}%>
 </div>
 </div>
 
-<div class="container" id='room'>
+<div class="container" id='room' style="display: none;">
+    <div class="header">
+            <div class="userInfo">
+                   <div class="name"></div>
+            </div>
+            <div class="options" style="justify-content: flex-end;">
+                    <div class="close">X</div>
+            </div>
+    </div>
     <div class="messageList">
 
         <div class="messageBox recievedMessage">

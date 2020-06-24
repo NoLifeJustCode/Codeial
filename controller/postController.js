@@ -6,11 +6,13 @@ const Commments=require('../models/comments')
 
 module.exports.createPost=async (req,res)=>{
    // console.log('user',req.user)
+   var filePath=String(req.file.path)
+    filePath=filePath.substring(filePath.indexOf('\\userUploads'))
     var reactionId=await mongoose.Types.ObjectId()
     var postData=await posts.create({
         content:req.body.content,
         CreatedUser:req.user._id,
-    
+        img:filePath
     })
     
     await user.findByIdAndUpdate(req.user.id,{

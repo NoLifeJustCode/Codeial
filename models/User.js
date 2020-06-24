@@ -62,7 +62,11 @@ const userSchema=new Schema({
         room_id:{
                 type:mongoose.SchemaTypes.ObjectId,
                 ref:'Room'
-            }
+            },
+        unRead:{
+            type:Number,
+            default:0
+        } 
     }]
     
 },{timestamps:true})

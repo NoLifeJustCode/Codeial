@@ -13,7 +13,14 @@ const upload=multer({storage:multer.diskStorage({
        cb(null,temp)
     }
 
-})})
+}),
+fileFilter: function (req, file, callback) {
+    var ext = path.extname(file.originalname);
+    if(ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+        return callback(new Error('Only images are allowed'))
+    }
+    callback(null, true)
+},})
 const friendController=require('../../../controller/FriendsController')
 
 const router=express.Router()
@@ -24,6 +31,8 @@ router.get('/remove/:id',friendController.removeFriend)
 router.get('/reject/:id',friendController.reject)
 router.get('/profile/:id',friendController.profile)
 router.get('/roomId/:id',friendController.roomId)
-router.post('/upload/:id',upload.single('img'),friendController.upload)
+router.post('/upload',upload.single('img'),friendController.upload)
+router.get('/messenger',friendController.messenger)
+router.get('/Read/:id',friendController.Read)
 
 module.exports=router

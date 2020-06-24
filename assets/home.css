@@ -106,7 +106,9 @@ body{
 .options{
     width: fit-content;
     position: relative;
-    float: right;
+   display: flex;
+   width: 100%;
+   justify-content: space-between;
 }
 .FormField {
     display: flex;
@@ -166,21 +168,25 @@ body{
     width: 100%;
     font-size: 2em;
     margin-bottom: 15px;
+    padding: 10px;
 }
 .Post .commentBox{
-    width: 40%;
-    height: 10%;
+    width: 80%;
+    height: 50px;
     display: flex;
 }
 .commentBox textarea{
 width: 80%;
 border-radius: .8em;
+margin: 3px 10px;
 }
 .commentBox input{
     width: fit-content;
     border-radius: .8em;
-    padding: 2px;
+    padding: 2px ;
+    margin: 3px 10px;
 }
+
 .Post .commentList{
 width: 100%;
 display: flex;
@@ -196,8 +202,8 @@ padding: 5px;
 .commentList .comment{
 height: 10%;
 width: fit-content;
-margin-left: 40px;
-padding: 15px;
+
+padding: 0px 15px;
 
 }
 .comment .content{
@@ -213,15 +219,20 @@ padding: 15px;
     position: relative;
     max-height: 30%;
     display: flex;
+    justify-content: space-around;
 }
 .MakePost textarea{
-    width: 85%;
+    width: 100%;
     border-radius: .8em;
 }
 .MakePost input{
     width: 15%;
+    height: 50px;
     font-size: 1.5em;
     border-radius: .8em;
+}
+.postText{
+    width: 70%;
 }
 .list{
     display: flex;
@@ -305,8 +316,11 @@ padding: 15px;
     vertical-align: top;
     
     margin-right: 1vw;
-    width: 50%;
+    width: 30%;
 
+}
+.dropdown:hover{
+    width: 30%;
 }
 .dropdown-content{
     display: none;
@@ -336,7 +350,7 @@ padding: 15px;
     margin-top: .8em;
 }
 .dropdown-content a:hover{
-    background-color: grey;
+    box-shadow: black 2px 2px 2px 2px;
 }
 .dropdown:hover .dropdown-content{
     display: block;
@@ -361,7 +375,12 @@ padding: 15px;
 }
 .name{
     text-align: center;
-    font-size: 1em;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+.name a{
+    text-decoration: none;
+    color: inherit;
 }
 .profilePic{
     margin: auto;
@@ -431,11 +450,54 @@ float: left;
     width: 400;
     
 }
-.container .heading{
+.container .header{
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     position: relative;
     width: 100%;
+    border-bottom: 1px black solid;
+    padding: 10px;
+    box-sizing:border-box;
 }
 
+.close{
+    cursor: pointer;
+}
+
+img.avatar{
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    
+}
+.userHeader{
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    height: fit-content;
+    padding: 10px;
+}
+.userHeader .name{
+    text-align: center;
+    font-size: 1.5em;
+    padding: 10px 20px;
+}
+div.commentPost{
+    display: flex;
+    /* margin-left: 0px; */
+    flex-grow: 5;
+}
+.commentImage{
+    height: 200px;
+    width: 140px;
+}
+.commentImage img{
+    height: inherit;
+    width: inherit;
+}
+.commentLayout{
+    display: flex;
+    justify-content: flex-start;
+    margin: 25px 5px;
+}

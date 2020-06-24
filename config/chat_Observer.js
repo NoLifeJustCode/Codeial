@@ -13,7 +13,12 @@ module.exports.checkSocket=(io)=>{
             var roomId=data.roomId,userId=data.userId
             console.log('initializing')
             var username=await user.findById(userId).select('name')
-            var roomData=await room.findById(roomId).select('chats').populate('chats')
+            var roomData=await room.findById(roomId).select("chats").populate("chats")
+            roomData=await user.populate(roomData,{
+                path:"chats.user",
+                select:"name "
+            })
+            console.log("roomData",roomData)
             var message={
                 roomId:roomId,
                 data:roomData,
@@ -21,14 +26,14 @@ module.exports.checkSocket=(io)=>{
             }
             console.log(message)
             socket.join(roomId)
-            socket.emit('init',message)
+            socket.emit('init_'+roomId,message)
         })
 
         socket.on('message',async function(message){
             console.log('message recieved')
             var doc=await chats.create({
                 content:message.content,
-                user:message.userId
+                user:message.user._id
             })
             console.log('message data',doc)
             await room.findByIdAndUpdate(message.roomId,{
