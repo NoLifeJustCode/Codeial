@@ -501,3 +501,54 @@ div.commentPost{
     justify-content: flex-start;
     margin: 25px 5px;
 }
+.PageIntro{
+    
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    margin: 25px;
+    flex-direction: row;
+}
+a.PageIntro{
+    text-decoration: none;
+    color: black;
+}
+.PageAvatar{
+    height: 150px;
+    width: 150px;
+    margin: 10px 20px ;   
+}
+#postImg{
+    cursor: pointer;
+}
+.PageOptions{
+    align-self: center;
+    flex-direction: row;
+    display: flex;
+    /* margin: 0px; */
+    /* float: right; */
+    position: relative;
+    left: 30%;
+}
+.PageOptions a{
+    text-decoration: none;
+    color: black;
+}
+.notify{
+    font-size: 1em;
+    position: absolute;
+    top: -1.2em;
+    /* right: 0; */
+    color: white;
+    background-color: red;
+    padding: .3em;
+}
+.button{
+    width: fit-content;
+    font-size: 1.2em;
+    margin: auto;
+}
+.button a{
+    text-decoration: none;
+    color: black;
+}

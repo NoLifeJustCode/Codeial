@@ -1,4 +1,5 @@
 const stratergy=require('passport-local').Strategy
+//Authentication class has local stratergy authenticator for now
 class PassportAuth{
     constructor(passport,getUser,check){
         this.passport=passport

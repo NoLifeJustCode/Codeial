@@ -6,15 +6,19 @@ const Commments=require('../models/comments')
 
 module.exports.createPost=async (req,res)=>{
    // console.log('user',req.user)
-   var filePath=String(req.file.path)
-    filePath=filePath.substring(filePath.indexOf('\\userUploads'))
-    var reactionId=await mongoose.Types.ObjectId()
-    var postData=await posts.create({
+   var filePath=''
+   if(req.file)// handle if file is not uploaded
+    {
+        filePath=String(req.file.path)
+        filePath=filePath.substring(filePath.indexOf('\\userUploads'))
+    }
+    //var reactionId=await mongoose.Types.ObjectId()//create rea
+    var postData=await posts.create({//create post
         content:req.body.content,
         CreatedUser:req.user._id,
         img:filePath
     })
-    
+    //push post id to user
     await user.findByIdAndUpdate(req.user.id,{
         $push:{'Posts':postData._id}
     })
@@ -24,8 +28,9 @@ module.exports.createPost=async (req,res)=>{
 module.exports.deletePost=async (req,res)=>{
     try{
         //console.log(req.params.id)
+        //find post document
         var doc=await posts.findById(req.params.id);
-        if(doc&&doc.CreatedUser.equals(req.user.id))
+        if(doc&&doc.CreatedUser.equals(req.user.id))//check if user who created post is same as logged in user
             {
                 doc=await posts.findByIdAndDelete(req.params.id)
                  await  user.findByIdAndUpdate(req.user.id,{
@@ -45,6 +50,7 @@ module.exports.deletePost=async (req,res)=>{
 module.exports.likePost=async(req,res)=>{
 
     try{
+        //push user id to likes 
         var like=await posts.findOneAndUpdate({
             _id:req.params.id,
             Likes:{$ne:req.user.id}
@@ -63,6 +69,7 @@ module.exports.likePost=async(req,res)=>{
 module.exports.unlikePost=async(req,res)=>{
 
     try{
+        //pull user id from likes of a post 
         var like=await posts.findOneAndUpdate({
             _id:req.params.id,
             

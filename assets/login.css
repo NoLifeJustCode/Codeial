@@ -1,0 +1,38 @@
+.container{display: flex;
+flex-direction: column;
+width: 30%;
+border: 1px solid black;
+padding: 10px;
+border-radius: .8em;
+margin: auto;
+margin-top: 5%;
+}
+
+.form{
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: fit-content;
+    padding: 10px;
+}
+
+.inputField{
+    display: flex;
+    /* width: 149%; */
+    justify-content: space-between;
+    font-size: 1.5em;
+    margin: 10px;
+}
+.inputField input{
+
+}
+
+.button{
+    width: fit-content;
+    font-size: 1.2em;
+    margin: auto;
+}
+.button a{
+    text-decoration: none;
+    color: black;
+}

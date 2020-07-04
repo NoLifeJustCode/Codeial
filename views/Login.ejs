@@ -1,6 +1,7 @@
 <html>
     <title><%=title%></title>
-
+    
+    <link rel="stylesheet" href="/assets/Login.css">
     <body>
             <%if(messages.error){%>
                         <p>
@@ -8,18 +9,22 @@
                             <%=messages.error%>
                         </p>
             <%}%>
-
-        <form action="/unAuth/login" method="POST">
-            <div>
+        <div class="container" >
+        <form  class="form" action="/unAuth/login" method="POST">
+            <div class="inputField">
             <label for ="email">Email : </label >
             <input type="text" id="email" name="email">
         </div>
-        <div>
+        <div class="inputField">
             <label for ="password">Password : </label >
                 <input type="password" id="password" name="password">
             </div>
-                <input type="submit" value="Login">
+            <div class="inputField">
+                <input class ="button" type="submit" value="Login"><button class="button"><a href="/unAuth/Register">Register</a></button>
+            </div>
         </form>
-        <a href="/unAuth/Register">Register</a>
+        <button class="button"><a href="/unAuth/Github">Login Using Github</a></button><br>
+        
+    </div>  
     </body>
 </html>

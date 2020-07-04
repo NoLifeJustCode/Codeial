@@ -6,6 +6,7 @@ const Commments=require('../models/comments')
 
 module.exports.createComment=async(req,res)=>{
     try{
+        //create comment
         var doc=await Commments.create({
             Post:req.params.id,
             User:req.user._id,
@@ -25,6 +26,7 @@ module.exports.createComment=async(req,res)=>{
 
 module.exports.deleteComment=async(req,res)=>{
     try{
+        //deleint a comment
         var doc=await Commments.findOneAndDelete({
             id:req.param.id,
             User:req.user._id,
@@ -49,6 +51,8 @@ module.exports.deleteComment=async(req,res)=>{
 module.exports.likeComment=async(req,res)=>{
 
     try{
+
+        //like a comment
         var like=await Commments.findOneAndUpdate({
             _id:req.params.id,
             Likes:{$ne:req.user.id}
@@ -70,6 +74,7 @@ module.exports.likeComment=async(req,res)=>{
 module.exports.unlikeComment=async(req,res)=>{
 
     try{
+        //remove a like form a comment
         var like=await Commments.findOneAndUpdate({
             _id:req.params.id,
             

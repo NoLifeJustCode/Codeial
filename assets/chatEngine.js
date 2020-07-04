@@ -22,9 +22,9 @@ class chatBox{
         var messageList=messenger.children('.messageList')
         messageList.children().remove()
         
-        console.log(this.data)
+       // console.log(this.data)
         for (let message of this.data){
-            console.log(message)
+            //console.log(message)
             message.time="16:20"
             
             
@@ -54,12 +54,12 @@ class chatBox{
         return item;
     }
     addMessage=(message)=>{
-        console.log("add Message")
+      //  console.log("add Message")
         var messenger=$('#room')
         var messageList=messenger.children('.messageList')
         message.time="16:20"
         messageList.append(this.createMessage(message))
-        console.log("messageList.height()",messageList.height())
+     //   console.log("messageList.height()",messageList.height())
         messageList.scrollTop(messageList.prop("scrollHeight"))
     }
     connect=()=>{
@@ -68,7 +68,7 @@ class chatBox{
             userId:this.userId
         })
         this.socket.on('init_'+this.roomId,(data)=>{
-                console.log(data)
+            //    console.log(data)
                 this.username=data.username.name
                 this.data=data.data.chats;
                 this.unRead=data.unRead
@@ -89,7 +89,7 @@ class chatBox{
         this.addMessage(message)
     }
     receive=(data)=>{
-        console.log(data)
+      //  console.log(data)
         if(data.user._id==this.userId)
         return 
         this.data.push(data)
@@ -109,20 +109,20 @@ class chatEngine{
         this.socket=this.io.connect()
         this.unReadRooms=0
         this.socket.on('connect',()=>{
-            console.log('connection success')
-            console.log(this.socket)
+          //  console.log('connection success')
+         //   console.log(this.socket)
             this.socket.on('message',this.receive)
         })
     }
     
     join_room=(id,username,avatar)=>{
-        console.log("joining room ",id)
+     //   console.log("joining room ",id)
         var host="http://localhost:3000/Auth/Friends/roomId/"+id
         var temp=$.get({
             url:host,
             withCredentials:true,
         },async(data)=>{
-            console.log("room_id",data)
+          //  console.log("room_id",data)
                 if(!this.rooms[data])
                     {
                         this.rooms[data]=new chatBox(data,this.userId,this.socket,id,username,avatar)
@@ -132,7 +132,7 @@ class chatEngine{
                                 url:'http://localhost:3000/Auth/Friends/Read/'+data,
                                 withCredentials:true,
                             },(data)=>{
-                                console.log("Successful read Set")
+                              //  console.log("Successful read Set")
                             })
                         }
                         return;
@@ -151,7 +151,7 @@ class chatEngine{
     }
 
      receive=(data)=>{
-            console.log(data)
+           // console.log(data)
             if(!this.rooms[data.roomId]){
                 {
                     this.unReadRooms++;
@@ -180,7 +180,7 @@ $(document).ready(function(){
            var target=$(event.target)
            var avatar=$(target.find(".avatar"))
            var username=$(target.find(".name"))
-           console.log("chat")
+        //   console.log("chat")
            chat.join_room(target.attr('id'))
            $("#room").show()
        })
@@ -208,11 +208,12 @@ $(document).ready(function(){
             var id=target.attr('id')
             var avatar=target.find(".avatar").attr("src")
             var username=target.find(".name").html()
-            console.log(id,avatar,username)
+        //    console.log(id,avatar,username)
             chat.join_room(id,username,avatar)
             $("#room").show()
         })
         $("#postImg").click((e)=>{
+            e.preventDefault()
             $(".MakePost input[type='file']").click()
         })
     }

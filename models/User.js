@@ -67,7 +67,23 @@ const userSchema=new Schema({
             type:Number,
             default:0
         } 
-    }]
+    }],
+    Admin:[{
+        type:mongoose.SchemaTypes.ObjectId,
+            ref:'Pages'
+    }],
+    PagesFollowing:[{
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:'Pages'
+    }],
+    PostsFeed:[{
+        type:mongoose.SchemaTypes.ObjectId,
+        ref:'Post'
+    }],
+    isOuth:{
+        type:mongoose.SchemaTypes.Boolean,
+        default:false,
+    }
     
 },{timestamps:true})
 

@@ -6,6 +6,9 @@
 <h2 class="title">Codeial</h2>
 <div class="right">
     <div class="dropdown">
+        <%if(Requests.length!=0){%>
+        <div class="notify"><%=Requests.length%></div>
+        <%}%>
         <div class="icon" style="width: 2em;"><img src="https://www.flaticon.com/premium-icon/icons/svg/2985/2985052.svg" alt=""></div>
         <ul class="dropdown-content">
             <li class="notification"><a href=""></a></li>
@@ -28,6 +31,10 @@
     <div style="margin:0px 15px;">
             <div class="icon"><a href="/Auth/Friends/messenger"><img src="https://image.flaticon.com/icons/svg/561/561127.svg" alt=""></a></div>
             
+    </div>
+    <div >
+        <button class="button"><a href="/Auth/pages/">Pages</a></button>
+        
     </div>
     <form  style="margin :5px 100px" action="/Auth/logout" method="POST">
     <input type="submit" value="logout">
@@ -134,7 +141,7 @@
             <a href="/Auth/Friends/profile/<%=friend.id%>"><img src="<%=friend.avatar%>" alt="profile"></a>
             <div class="name" style="margin: 10px 0px;"><%=friend.name%></div>
             <div class="options" style="justify-content: space-evenly;">
-                <div class="name" style="font-size: 1em;">Unfriend</div>
+                <div class="name" style="font-size: 1em;"><a href="/Auth/Friends/add-friend/<%=friend.id%>">Unfriend</a></div>
                 <div class="name" style="font-size: 1em;"><a id="<%=friend.id%>" class="chat">Message</a></div>
             </div>
         </div>

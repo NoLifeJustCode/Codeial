@@ -1,3 +1,6 @@
+/**
+ * Import express,passport,bodyParser,Session,chatEngine
+ */
 const express=require('express')
 const app=express()
 const port=3000
@@ -10,28 +13,32 @@ const user=require('./models/User')
 const flash=require('express-flash')
 const bodyParser=require('body-parser')
 const chatEngine=require('./config/chat_Observer')
-// temp(passport,getUser,checkUser)
+//custom Authentication class 
 const p=require('./config/Authentication')
-const temp=new p(passport,getUser,checkUser)
-const SName="userAuth"
+//create a instance of Authentication class 
+const temp=new p(passport,getUser,checkUser)//creates a class for Authentication using getUser,checkUser
+const SName="userAuth"//Stratergy Name
 const path=require('path')
-temp.LocalStratergy(SName,getUser,checkUser,'email')
+const github=require('./config/passport_github')//Github oauth stratergy
+temp.LocalStratergy(SName,getUser,checkUser,'email')//get LocalStratergy from Authentication class
+// call back to retrieve user 
 async function getUser(email,password){
     var userDoc=await user.findOne({
         email:email,
     })
-   // console.log( userDoc.verifyPassword(password))
+ 
     if(userDoc&& await userDoc.verifyPassword(password))
         return userDoc
     return null;
 
 }
+//call back to check user existence
 async function checkUser(id){
     var userDoc=await user.findById(id)
-    //console.log(userDoc)
+
     return userDoc
 }
-
+//Setup app for template engine,static files,session and passport
 app.set('view-engine' ,'ejs')
 app.set('views','./views')
 app.use('/assets',express.static(path.join(__dirname,'./assets')))
@@ -53,12 +60,12 @@ app.use((req, res, next) => {
     next();
   });
 app.use((req,res,next)=>{
-    console.log(req.body)
+   // console.log(req.body)
     next()
 })
 
 
-
+//setup http server for websockets 
 
 const http=require('http').createServer(app)
 const socketIo=require('socket.io')(http)
@@ -66,141 +73,21 @@ socketIo.use(function(socket,next){
     sessionMiddleware(socket.request,{},next)
 })
 chatEngine.checkSocket(socketIo)
+//attach server to port 300 and listen for connection
 http.listen(3000,()=>{
     console.log('listening on port 3000')
 })
 
 
-
+//Routes are divided into Authenticated or UnAuth(Reqister or login)
 app.use('/unAuth',checkAuthorize,unAuth)
 app.use('/Auth',checkAuthenticated,require('./routes/Auth/index'))
 
-
-
-
-
-
-
-
-
-
-//Posts and Comments
-
-
-
-
-//Friends 
-
-
-app.get('/add-friend/:id',checkAuthenticated,async (req,res)=>{
-        try{    
-            var doc=await user.findOneAndUpdate({
-                _id:req.params.id,
-               'Requests':{'$ne':req.user.id}
-            },{
-                $push:{'Requests':req.user.id}
-            },{
-                upsert:true,
-                
-            })
-           // console.log('add Friend',doc)
-            return res.redirect('back')
-
-        }catch(e)
-        {
-            console.log(e)
-            return res.redirect('back')
-        }
+//redirect to unAuth 
+app.get('/',function(req,res){
+    return res.redirect('/unAuth/login')
 })
-
-app.get('/accept/:id',checkAuthenticated,async(req,res)=>{
-
-    try{
-                var doc=await user.findByIdAndUpdate(
-                    req.user.id,{
-                        $push:{Friends:req.params.id},
-                        $pull:{Requests:req.params.id}
-                    }
-                    ,{
-                        upsert:true,
-                        runValidators:true,
-                    }
-                    )
-                await user.findByIdAndUpdate(req.params.id,{
-                    $push:{'Friends':doc.id}
-                },{
-                    upsert:true
-                })
-                    console.log('Accept',doc)
-                    return res.redirect('back')
-    }catch(e){
-        console.log(e)
-        return res.redirect('back')
-    }
-})
-
-
-app.get('/remove/:id',checkAuthenticated,async (req,res)=>{
-
-    try{
-        var doc=await user.findByIdAndUpdate(
-            req.user.id,{
-                $pull:{Friends:req.params.id}
-            }
-            ,{
-                upsert:true,
-                
-            }
-            )
-         await user.findByIdAndUpdate(req.params.id,{$pull:{'Friends':doc.id}})
-            return res.redirect('back')
-        
-    }catch(e){
-        console.log(e)
-        return res.redirect('back')
-    }
-})
-
-
-app.get('/reject/:id',checkAuthenticated,async(req,res)=>{
-
-    try{
-                var doc=await user.findByIdAndUpdate(
-                    req.user.id,{
-                        $pull:{Requests:req.params.id}
-                    }
-                    ,{
-                        upsert:true,
-                        runValidators:true,
-                    }
-                    )
-                    return res.redirect('back')
-    }catch(e){
-        console.log(e)
-        return res.redirect('back')
-    }
-})
-
-app.get('/profile/:id',checkAuthenticated,async(req,res)=>{
-    try{
-        var doc=await user.findById(req.params.id).populate('Friends').populate('Posts')
-       // console.log(doc)
-        var profile={
-            name:doc.name,
-        }
-        if(!doc.Permission||doc.Permission=='public'||doc.Permission=='Friends')
-            {   profile.Permission=true
-                profile['friends']=doc.Friends,
-                profile['posts']=doc.Posts
-            }
-            console.log('profile',profile)
-            return res.render('profile.ejs',{profile:profile,id:req.user.id})
-    }catch(err){
-        console.log(err)
-        return res.redirect('back')
-    }
-})
-
+//Accessorty function for conditional routing
 function checkAuthenticated(req,res,next){
         if(req.isAuthenticated())
             next()

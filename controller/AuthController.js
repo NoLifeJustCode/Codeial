@@ -2,7 +2,7 @@ const mongoose=require('mongoose')
 const user=require('../models/User')
 const posts=require('../models/posts')
 const Commments=require('../models/comments')
-
+//render login page
 module.exports.getLogin=function(req,res){
     return res.render('Login.ejs',{
         title:'Codeial',
@@ -14,10 +14,8 @@ module.exports.getLogin=function(req,res){
 }
 
 
-module.exports.login=function(req,res){
 
-}
-
+//render registeration page
 
 module.exports.getRegisteration=function(req,res){
     return res.render('Register.ejs',{
@@ -25,7 +23,7 @@ module.exports.getRegisteration=function(req,res){
         messages:'none'
     })
 }
-
+//register user
 module.exports.Register=async function(req,res){
     try{
         var userDoc=await user.create({

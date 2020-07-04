@@ -1,0 +1,124 @@
+.container{
+  background-color:#09090b;
+  opacity: 1;
+  width: 30%;
+  height: auto;
+  max-height: fit-content;
+  margin: auto;
+}    
+input.input::placeholder {
+      color: #a7414a;
+      padding: 2px;
+      text-align: center;
+  }
+body{
+  /* background-image: url('https://media.istockphoto.com/photos/vintage-stethoscope-on-black-background-picture-id182746151?k=6&m=182746151&s=612x612&w=0&h=OIqNziQMomeW9h2qKX-9vEmB1-pfs7sDsO-xwR5_aBA='); */
+  
+  background-repeat: no-repeat;
+  background-size:  100% 100% ;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+input.input{
+  height: 100%;    
+  color:#a7414a;
+  background-color: #132226;
+ 
+                  
+  border: #09090b;
+  width: 85%;
+  vertical-align: top;
+  padding: 0;
+}
+label.label{
+  color:#a7414a;
+  height: 100%;
+  width: 20%;
+}
+div.content img{
+  height: 100%;
+  width: 10%;
+  
+  top: 1%;
+}
+form.form{
+  height: 100%;
+  width: 100%;
+}
+div.content{
+  position: relative;
+  width: 60%;
+  height: 10%;
+  background-color: #132226;
+  padding: 2px;
+  margin: auto;
+  margin-top: 3%;
+}
+div.title{
+  position: relative;
+  color:white;
+  text-align: center;
+}
+.line_seperator{
+  
+border-color: white;
+
+border-top-width: thin;
+border-style: groove;
+}
+#root{
+  width:100%;
+  height: 100%;
+}
+.submit{
+  position: relative;
+  margin-top: 5%;
+  left:70%;
+  font-size: 80%;
+}
+.textCenter{
+  text-align: center;
+}
+.pop_out{
+  border-top-right-radius:18px ;
+  border-top-left-radius:18px ;
+  border-width: 1px;
+  border-style: inset;
+  border-color:black;
+  background-color: wheat;
+  cursor: pointer;
+}
+.pop_active{
+  box-shadow: inset black -2px 3px;
+}
+.list{
+  background-color: pink;
+
+}
+.danger{
+  background-color: pink;
+}
+.success{
+  background-color: green;
+}
+.table td{
+  border-top:none;
+}
+.table {
+
+  border: 1px solid #dee2e6 ;
+  border-top: none;
+}
+.popup{
+  z-index: 1000;
+  
+}
+.button a{
+  text-decoration: none;
+  color: black;
+}
+.button{
+  margin: 20px 0px;
+}

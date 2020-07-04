@@ -7,7 +7,8 @@ const room=require('../models/room')
 
 module.exports.reject=async(req,res)=>{
 
-try{
+try{        
+            //pull request from the requests of the user
             var doc=await user.findByIdAndUpdate(
                 req.user.id,{
                     $pull:{Requests:req.params.id}
@@ -28,13 +29,15 @@ try{
 module.exports.profile=async(req,res)=>{
 try{
     
-    console.log('params',req.params.id)
+    //retrieve profile of a user
     var doc=await user.findById(req.params.id).populate('Friends')
+    let isFriends=doc.Friends.some((id)=>id.id==req.user.id)
+    let isRequestSent=isFriends||doc.Requests.some((id)=>id==req.user.id)
     doc=await posts.populate(doc,{
         path:'Posts',
         
     })
-    console.log('Profile ',doc)
+    //populate posts,comments and user data
     doc =await Commments.populate(doc,{
         path:"Posts.comments"
     })
@@ -42,13 +45,13 @@ try{
         path:"Posts.comments.User",
         select:'name avatar'
     })
-     console.log("comments",doc)
+   
     var profile={
         name:doc.name,
         avatar:doc.avatar,
         email:doc.email
     }
-
+    //For future use to create profile Locked mechanism i.e choose who can view ur profile
     if(!doc.Permission||doc.Permission=='public'||doc.Permission=='Friends')
         {   profile.Permission=true
             profile['friends']=doc.Friends,
@@ -63,7 +66,10 @@ try{
             id:doc.id,
             Permission:profile.Permission,
             user:req.user,
-            email:profile.email
+            email:profile.email,
+            isFriends,
+            isRequestSent
+
         })
 }catch(err){
     console.log(err)
@@ -75,6 +81,8 @@ try{
 
 module.exports.addFriend=async (req,res)=>{
     try{    
+
+        //send friend reqeust to a user
         var doc=await user.findOneAndUpdate({
             _id:req.params.id,
             'Requests':{'$ne':req.user.id}
@@ -96,6 +104,7 @@ module.exports.addFriend=async (req,res)=>{
 module.exports.accept=async(req,res)=>{
 
     try{
+                //accept friend request 
                 var doc=await user.findByIdAndUpdate(
                     req.user.id,{
                         $push:{Friends:req.params.id},
@@ -122,6 +131,8 @@ module.exports.accept=async(req,res)=>{
 module.exports.removeFriend=async (req,res)=>{
 
     try{
+
+        //unfriend a user
         var doc=await user.findByIdAndUpdate(
             req.user.id,{
                 $pull:{Friends:req.params.id}
@@ -144,10 +155,10 @@ module.exports.removeFriend=async (req,res)=>{
 
     module.exports.upload=async(req,res)=>{
         try{
-            
+            //update profile pic
             var filePath=String(req.file.path)
             filePath=filePath.substring(filePath.indexOf('\\userUploads'))
-            console.log('filePath',filePath)
+            
             await user.findByIdAndUpdate(req.user.id,{avatar:filePath})
             return res.redirect('back')
         }catch(e){
@@ -158,7 +169,7 @@ module.exports.removeFriend=async (req,res)=>{
 
     module.exports.roomId=async function(req,res){
         try{
-            console.log("params",req.params.id)
+            //creating room for chat
             let room_id=await user.findById(req.user.id).select({"Rooms":{$elemMatch:{user_id:req.params.id}}});
             
             
@@ -205,16 +216,15 @@ module.exports.removeFriend=async (req,res)=>{
 
     module.exports.messenger=async function(req,res){
         try{
+            //retrieve list of rooms
+            //Exact chat Room is loaded once clicked on the room
             var rooms=await user.findById(req.user.id).select('name Rooms.user_id Rooms.unRead')
-            // roooms=await room.populate(rooms,{
-            //     path:"Rooms.room_id",
-            //     select:''
-            // })
+            
             rooms=await user.populate(rooms,{
                     path:"Rooms.user_id",
                     select:'name avatar'
             })
-            console.log("Rooms",rooms)
+           
             //return res.json(200,rooms)
             return res.render('messages.ejs',{user:rooms}   )
            // return res.redirect('back')
@@ -225,7 +235,8 @@ module.exports.removeFriend=async (req,res)=>{
     }
     module.exports.Read= async function(req,res){
         try{    
-            console.log("setting Read")
+            //update notification of new messages in messenger 
+            // only works if chat room is already loaded
             var doc=await user.findOneAndUpdate({
                 _id:req.user.id,
                 "Rooms.room_id":req.params.id
