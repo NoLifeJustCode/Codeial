@@ -1,2 +1,3 @@
 /node_modules
 **/userUploads/
+!/userUploads/empty.txt
